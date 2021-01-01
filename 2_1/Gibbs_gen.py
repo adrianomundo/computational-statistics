@@ -62,7 +62,9 @@ if __name__ == "__main__":
     alphabet = ['2','3','5','7'] # 1-digit prime numbers
     alpha_prime = [1,1,1,1]  
     alpha       = [1,7,12,2]
-    
+
+    # Set random seed
+    np.random.seed(12345)
 
     # Generate sequences
     seqs, pos = generate_sequences(alphabet,alpha, alpha_prime,N,M,W)

@@ -1,17 +1,25 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Wed Dec  9 22:01:59 2020
+The script generates reads the database with N sequences of length M over an alphabet of length W, 
+each containing a "magic" word of length W. 
+The initial positions are estimated for a given set of paramateres:
 
-@author: daniele
+- W  (magic word length)
+- N  (number of sequences)
+- M  (length of the sequence)
+- iterations (number of iterations)
+- minstep (lag between samples)
+- steplength (number of burn-in iterations)
+
+D.Massaro & A.Mundo, KTH, Statistical Methods in Applied Computer Science FD2447/FD3447, 2020
+
 """
+
 import numpy as np
 import math as math
 import operator as op
 import functools
 from scipy.special import loggamma
 from collections import Counter
-import matplotlib.pyplot as plt
 from IPython import get_ipython
 
 
@@ -73,9 +81,12 @@ def r0_estimator(alphabet, data, alpha, alpha_prime, W, iterations, minimum, ste
     N = len(data)
     M = len(data[0])
 
+    np.random.seed(12345)
+    
     # Initial position r0' is randomly generated
     samples.append([np.random.randint(0, M-W+1) for i in range(N)])
     totsamples = np.zeros((N,iterations))
+    
     
     for i in range(iterations):
         temp_r = []
@@ -90,21 +101,13 @@ def r0_estimator(alphabet, data, alpha, alpha_prime, W, iterations, minimum, ste
             #sample
             position = np.argmax(np.random.multinomial(1,p_pos))
             
-            print(position)
+            #print(position)
             temp_r.append(position)
             totsamples[j,i] = position   
             
         samples.append(temp_r)
         
-    # Plot convergence
-    
-    plt.figure(facecolor="white")
-    aa = np.asarray(totsamples)
-    plt.plot(aa[0,:],'.-')
-    plt.title('$r_0$ convergence')
-    plt.ylabel('$r_0$ ')
-    plt.xlabel('number of iterations')
-    plt.show()   
+
     
     # Select the iterations between minimum step and a given step
     samples = [samples[j] for j in range(minimum, iterations, step)]
@@ -129,8 +132,8 @@ if __name__ == '__main__':
     data = dd.tolist()
     
     # Estimates the starting positions
-    iterations = 100
-    minstep = 50
+    iterations = 400
+    minstep = 200
     steplength = 10
     
  
@@ -138,18 +141,3 @@ if __name__ == '__main__':
     
     print(r_initial)
     
-    # Mean and Variance computation for convergency analysis 
-    for i in range(N):
-        print("Mean Sequence {}: {}".format(i+1,np.mean(tot[i,:])))   
-        print("Std Sequence {}: {}".format(i+1,np.std(tot[i,:])))   
-        print('Number of Occurences in the entire sequence: {} - {}%'.format(np.count_nonzero(tot[i,:] == r_initial[i]),
-              np.count_nonzero(tot[i,:] == r_initial[i])/iterations*100))
-        print('Number of Occurences in the after burn-in: {} - {}%'.format(np.count_nonzero(tot[i,minstep:-1] == r_initial[i]),
-              np.count_nonzero(tot[i,minstep:-1] == r_initial[i])/(iterations-minstep)*100))
-        
-    plt.figure(facecolor="white")
-    plt.plot(tot[-1,:],'.-')
-    plt.title('$r_0$ convergence')
-    plt.ylabel('$r_0$ ')
-    plt.xlabel('number of iterations')
-    plt.show()   
