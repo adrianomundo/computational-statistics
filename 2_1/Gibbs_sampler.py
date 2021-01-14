@@ -130,7 +130,7 @@ def r0_estimator(alphabet, data, alpha, alpha_prime, W, iterations, minimum, ste
 
 
 if __name__ == '__main__':
-    alphabet = ['2','3','5','7'] # 1-digit prime numbers176785 -1613.95723659]
+    alphabet = ['2','3','5','7'] # 1-digit prime numbers
     alpha_prime = [0.1,0.1,0.1,0.1]
     alpha = [9,7,20,2]
     W = 10    # Magic word length
