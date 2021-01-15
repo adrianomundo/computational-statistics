@@ -8,7 +8,7 @@ source("../2_2/SV_data_generator.R")
 source("../2_2/BPF.R")
 source("CSMC.R")
 
-set.seed(23423432)
+set.seed(234324234)
 sv.data = generate_data(0.91, 0.16, 0.64, 100)
 
 set.seed(2723)

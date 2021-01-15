@@ -44,4 +44,6 @@ ggsave("plots/sis_MSE.png")
 
 # empirical variance
 print(var(sis.filter$wnorm[100,]))
+# 4.890004e-05
+
 
