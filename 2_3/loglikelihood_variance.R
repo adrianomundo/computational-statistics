@@ -32,5 +32,5 @@ for(n in c(25, 50, 100, 200, 300, 500)){
   }
 }
 ggplot(variation.N, aes(x = N, group = N, y = logl)) +
-  geom_boxplot(color="red", fill="orange") + ylab("log-likelihood") + xlab("N")
+  geom_boxplot(color="red", fill="orange") + ylab("log-likelihood") + xlab("N") + theme_bw()
 ggsave("plots/variation_N_boxplot.png")

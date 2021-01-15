@@ -8,13 +8,13 @@ source("SIS.R")
 set.seed(2723)
 # data generation
 gen.data = generate_data(0.91, 0.16, 0.64, 100)
-sis.filter = sis(my.data$y, 1500, 100, 0.91, 0.16, 0.64)
+sis.filter = sis(my.data$y, 499, 100, 0.91, 0.16, 0.64)
 
 # point estimate and MSE
 print(gen.data$x[100])
 print(sis.filter$x.hat[100])
 print("MSE - SIS:" ) 
-print(sis.filter$x.hat[100] - gen.data$x[100]^2)
+print((sis.filter$x.hat[100] - gen.data$x[100])^2)
 
 # weights histogram
 tibble(
@@ -44,6 +44,6 @@ ggsave("plots/sis_MSE.png")
 
 # empirical variance
 print(var(sis.filter$wnorm[100,]))
-# 4.890004e-05
+
 
 

@@ -31,6 +31,8 @@ ggsave("plots/bpf_weights_multi_histogram.png")
 # point estimate
 bpf.multinomial$x.hat[100]
 sv.data$x[100]
+print("MSE - BPF Multi:" )
+print((bpf.multinomial$x.hat[100] - sv.data$x[100])^2)
 
 # MSE
 mse.tibble.bpf.multinomial = tibble(N = as.numeric(), mse = as.numeric())
@@ -44,7 +46,6 @@ ggsave("plots/bpf_multinomial_MSE.png")
 
 # empirical variance
 print(var(bpf.multinomial$w.norm.bpf[100,]))
-# 4.358215e-09
 
 #-------------------------------------------------------------------------------------------------------------------
 
@@ -60,6 +61,12 @@ tibble(T = 1:100, value = bpf.stratified$x.hat) %>%
   ggtitle("Sampled vs Test Value Comparison") +
   scale_color_manual(name = NULL, breaks = c("a", "b"),
                      labels = c("BPF Stratified", "Test Data"), values = c("blue", "black")) + theme_bw()
+
+# point estimate
+bpf.stratified$x.hat[100]
+sv.data$x[100]
+print("MSE - BPF Strati:" )
+print((bpf.stratified$x.hat[100] - sv.data$x[100])^2)
 
 # weights degeneracy histogram
 tibble(value = as.numeric(bpf.stratified$w.norm[100, ])) %>% ggplot(aes(x = value)) +
@@ -77,5 +84,4 @@ ggplot(mse.tibble.bpf.stratified, aes(x = N, y = mse)) +
 ggsave("plots/bpf_stratified_MSE.png")
 
 print(var(bpf.stratified$w.norm.bpf[100,]))
-# 6.290525e-09
 
